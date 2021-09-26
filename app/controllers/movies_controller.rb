@@ -1,5 +1,6 @@
 class MoviesController < ApplicationController
-
+    helper_method :sort_column
+    
     def show
       id = params[:id] # retrieve movie ID from URI route
       @movie = Movie.find(id) # look up movie by unique ID
@@ -7,7 +8,9 @@ class MoviesController < ApplicationController
     end
   
     def index
-      @movies = Movie.all
+      @movies = Movie.order(sort_column)
+      @all_ratings = Movie.all_ratings
+      
     end
   
     def new
@@ -45,3 +48,8 @@ class MoviesController < ApplicationController
       params.require(:movie).permit(:title, :rating, :description, :release_date)
     end
   end
+  
+  def sort_column
+    params[:sort]
+  end
+  

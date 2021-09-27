@@ -1,7 +1,13 @@
 module ApplicationHelper
     def sortable(column, title=nil)
         title = column.titleize
-        css_class = column == sort_column ? "hilite":nil
+        if params[:sort]
+            css_class = column == params[:sort]? "hilite bg-warning text-dark":nil
+        else
+            if session[:sort]
+                css_class = column == session[:sort]? "hilite bg-warning text-dark":nil
+            end
+        end
         link_to title, {:sort => column}, {:class => css_class}
     end
         
